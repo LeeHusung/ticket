@@ -2,8 +2,8 @@ package com.ticket.member.controller;
 
 import com.ticket.member.dto.AddMemberRequest;
 import com.ticket.domain.member.MemberService;
+import com.ticket.support.response.ApiResponse;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> register(@RequestBody @Valid AddMemberRequest request) {
-        return ResponseEntity.ok().body(memberService.register(request.toAddMember()));
+    public ApiResponse<Long> register(@RequestBody @Valid AddMemberRequest request) {
+        return ApiResponse.success(memberService.register(request.toAddMember()));
     }
 }

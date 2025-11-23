@@ -1,8 +1,9 @@
 package com.ticket.domain.member;
 
-import com.ticket.exception.DuplicateEmailException;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
+import com.ticket.support.exception.DuplicateEmailException;
+import com.ticket.support.exception.ErrorType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class MemberService {
         passwordPolicyValidator.validateAdd(addMember.getPassword());
         //이메일 정책은 중복 밖에 없을듯 해서 굳이 분리하지 않음.
         if (memberRepository.existsByEmailAddress(addMember.getEmail())) {
-            throw new DuplicateEmailException("중복 이메일은 허용되지 않습니다.");
+            throw new DuplicateEmailException(ErrorType.DUPLICATE_EMAIL_ERROR);
         }
         final MemberEntity savedMember = memberRepository.save(new MemberEntity(
                 addMember.getEmail(),
