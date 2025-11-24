@@ -1,4 +1,4 @@
-package com.ticket.member.dto;
+package com.ticket.api.controller.v1.request;
 
 import com.ticket.domain.member.AddMember;
 import jakarta.validation.constraints.Email;
