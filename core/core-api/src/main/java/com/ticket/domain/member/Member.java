@@ -7,13 +7,11 @@ public class Member {
     private final Long id;
     private final Email email;
     private final String name;
-    private final String password;
 
-    public Member(final Long id, final Email email, final String name, final String password) {
+    public Member(final Long id, final Email email, final String name) {
         this.id = id;
         this.email = email;
         this.name = name;
-        this.password = password;
     }
 
     public Long getId() {
@@ -28,7 +26,4 @@ public class Member {
         return name;
     }
 
-    public String getPassword() {
-        return password;
-    }
 }

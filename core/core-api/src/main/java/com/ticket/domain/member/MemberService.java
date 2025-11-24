@@ -1,9 +1,11 @@
 package com.ticket.domain.member;
 
+import com.ticket.domain.member.vo.Email;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
 import com.ticket.support.exception.DuplicateEmailException;
 import com.ticket.support.exception.ErrorType;
+import com.ticket.support.exception.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +38,10 @@ public class MemberService {
                 addMember.getName()
         ));
         return savedMember.getId();
+    }
+
+    public Member findById(final Long memberId) {
+        final MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND));
+        return new Member(memberEntity.getId(), new Email(memberEntity.getEmail()), memberEntity.getName());
     }
 }

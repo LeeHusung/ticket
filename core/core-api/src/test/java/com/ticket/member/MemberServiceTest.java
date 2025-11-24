@@ -1,10 +1,11 @@
 package com.ticket.member;
 
 import com.ticket.domain.member.AddMember;
+import com.ticket.domain.member.Member;
+import com.ticket.domain.member.MemberService;
 import com.ticket.domain.member.PasswordPolicyValidator;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
-import com.ticket.domain.member.MemberService;
 import com.ticket.support.exception.DuplicateEmailException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +18,9 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -99,4 +103,20 @@ public class MemberServiceTest {
     //todo
     //1. 비밀번호 테스트는 policytest에? 아니면 여기서?
 //    2. 예외 관련 테스트, 클래스 만들기(예외처리기)
+
+    @Test
+    void 회원을_조회하는데_성공한다() {
+        //given
+        Long memberId = 1L;
+        MemberEntity memberEntity = new MemberEntity("test@test.com", "encodedPassword", "ANONYMOUS");
+        // MemberEntity의 id를 설정하는 방법이 필요 (리플렉션 or setter)
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(memberEntity));
+        //when
+        Member findMember = memberService.findById(memberId);
+        //then
+        assertThat(findMember.getEmail().getEmail()).isEqualTo("test@test.com");
+        assertThat(findMember.getName()).isEqualTo("ANONYMOUS");
+        verify(memberRepository).findById(memberId);
+    }
+
 }

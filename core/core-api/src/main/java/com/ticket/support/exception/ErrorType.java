@@ -4,8 +4,9 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorType {
     DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "알 수 없는 에러입니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "요청하신 정보를 찾을 수 없습니다."),
 
-    //회원
+    //회원,
     DUPLICATE_EMAIL_ERROR(HttpStatus.CONFLICT, ErrorCode.E409, "중복된 이메일은 불가능합니다.");
 
     private final HttpStatus status;
