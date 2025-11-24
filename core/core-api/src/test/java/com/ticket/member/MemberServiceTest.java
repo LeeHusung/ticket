@@ -7,6 +7,7 @@ import com.ticket.domain.member.PasswordPolicyValidator;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
 import com.ticket.support.exception.DuplicateEmailException;
+import com.ticket.support.exception.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -109,7 +110,6 @@ public class MemberServiceTest {
         //given
         Long memberId = 1L;
         MemberEntity memberEntity = new MemberEntity("test@test.com", "encodedPassword", "ANONYMOUS");
-        // MemberEntity의 id를 설정하는 방법이 필요 (리플렉션 or setter)
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(memberEntity));
         //when
         Member findMember = memberService.findById(memberId);
@@ -119,4 +119,12 @@ public class MemberServiceTest {
         verify(memberRepository).findById(memberId);
     }
 
+    @Test
+    void 존재하지_않는_id는_회원조회를_실패한다() {
+        //given
+        Long memberId = 999L;
+        when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
+        //then
+        assertThatThrownBy(() -> memberService.findById(memberId)).isInstanceOf(NotFoundException.class);
+    }
 }
