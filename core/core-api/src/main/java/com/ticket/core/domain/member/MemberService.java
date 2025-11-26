@@ -5,7 +5,6 @@ import com.ticket.core.support.exception.CoreException;
 import com.ticket.core.support.exception.ErrorType;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
-import com.ticket.support.exception.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
