@@ -18,4 +18,15 @@ public class ReservationTest {
         //then
         assertThat(canReservation).isTrue();
     }
+
+    @Test
+    void 재고가_없다면_예매를_실패한다() {
+        //given
+        int count = 0;
+        final PerformanceSeat performanceSeat = new PerformanceSeat(count);
+        //when
+        boolean canReservation = performanceSeat.canReservation();
+        //then
+        assertThat(canReservation).isFalse();
+    }
 }
