@@ -6,9 +6,7 @@ import com.ticket.domain.member.MemberService;
 import com.ticket.domain.member.PasswordPolicyValidator;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
-import com.ticket.support.exception.DuplicateEmailException;
-import com.ticket.support.exception.NotFoundException;
-import com.ticket.support.exception.PasswordInvalidException;
+import com.ticket.support.exception.CoreException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -96,7 +94,7 @@ public class MemberServiceTest {
         final AddMember addMember = new AddMember("test@test.com", "1234", "ANONYMOUS");
         when(memberRepository.existsByEmailAddress("test@test.com")).thenReturn(true);
         //then
-        assertThatThrownBy(() -> memberService.register(addMember)).isInstanceOf(DuplicateEmailException.class);
+        assertThatThrownBy(() -> memberService.register(addMember)).isInstanceOf(CoreException.class);
         verify(memberRepository, times(1)).existsByEmailAddress("test@test.com");
         verify(memberRepository, never()).save(any(MemberEntity.class));
         verify(passwordEncoder, never()).encode(anyString());
@@ -126,7 +124,7 @@ public class MemberServiceTest {
         Long memberId = 999L;
         when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
         //then
-        assertThatThrownBy(() -> memberService.findById(memberId)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> memberService.findById(memberId)).isInstanceOf(CoreException.class);
     }
 
     @Test
@@ -154,7 +152,7 @@ public class MemberServiceTest {
         when(memberRepository.findByEmail(email)).thenReturn(Optional.of(memberEntity));
         when(passwordEncoder.matches(password, memberEntity.getPassword())).thenReturn(false);
         //then
-        assertThatThrownBy(() -> memberService.login(email, password)).isInstanceOf(PasswordInvalidException.class);
+        assertThatThrownBy(() -> memberService.login(email, password)).isInstanceOf(CoreException.class);
     }
 
     @Test
@@ -164,6 +162,6 @@ public class MemberServiceTest {
         String password = "1234";
         when(memberRepository.findByEmail(email)).thenReturn(Optional.empty());
         //then
-        assertThatThrownBy(() -> memberService.login(email, password)).isInstanceOf(NotFoundException.class);
+        assertThatThrownBy(() -> memberService.login(email, password)).isInstanceOf(CoreException.class);
     }
 }

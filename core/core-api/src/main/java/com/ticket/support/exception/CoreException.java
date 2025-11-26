@@ -1,15 +1,15 @@
 package com.ticket.support.exception;
 
-public class NotFoundException extends RuntimeException {
+public class CoreException extends RuntimeException {
 
     private final ErrorType errorType;
     private final Object data;
 
-    public NotFoundException(final ErrorType errorType) {
+    public CoreException(final ErrorType errorType) {
         this(errorType, null);
     }
 
-    public NotFoundException(final ErrorType errorType, Object data) {
+    public CoreException(final ErrorType errorType, Object data) {
         super(errorType.getMessage());
         this.errorType = errorType;
         this.data = data;
