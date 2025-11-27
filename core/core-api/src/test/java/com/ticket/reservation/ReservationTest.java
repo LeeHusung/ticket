@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
+import static com.ticket.util.TestCommonUtils.currentTime;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -16,10 +17,10 @@ public class ReservationTest {
         //given
         Long userId = 1L;
         int seatCount = 4;
-        final Performance performance = new Performance(LocalDateTime.now().plusHours(10), LocalDateTime.now().plusHours(15));
+        final Performance performance = new Performance(currentTime().plusHours(10), currentTime().plusHours(15));
         final PerformanceSeat performanceSeat = new PerformanceSeat(performance, seatCount);
 
-        final LocalDateTime currTime = LocalDateTime.now();
+        final LocalDateTime currTime = currentTime();
         //when
         boolean isReserved = performanceSeat.reserve(userId, currTime);
         //when
@@ -32,10 +33,10 @@ public class ReservationTest {
         //given
         Long userId = 1L;
         int seatCount = 0;
-        final Performance performance = new Performance(LocalDateTime.now().minusHours(10), LocalDateTime.now().minusHours(5));
+        final Performance performance = new Performance(currentTime().minusHours(10), currentTime().minusHours(5));
         final PerformanceSeat performanceSeat = new PerformanceSeat(performance, seatCount);
 
-        final LocalDateTime currTime = LocalDateTime.now();
+        final LocalDateTime currTime = currentTime();
         //when
         boolean isReserved = performanceSeat.reserve(userId, currTime);
         //then
@@ -47,10 +48,10 @@ public class ReservationTest {
         //given
         Long userId = 1L;
         int seatCount = 0;
-        final Performance performance = new Performance(LocalDateTime.now().minusHours(10), LocalDateTime.now().minusHours(5));
+        final Performance performance = new Performance(currentTime().minusHours(10), currentTime().minusHours(5));
         final PerformanceSeat performanceSeat = new PerformanceSeat(performance, seatCount);
 
-        final LocalDateTime currTime = LocalDateTime.now();
+        final LocalDateTime currTime = currentTime();
         //when
         boolean isReserved = performanceSeat.reserve(userId, currTime);
         //then
