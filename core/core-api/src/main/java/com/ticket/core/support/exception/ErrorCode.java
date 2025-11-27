@@ -10,4 +10,6 @@ public enum ErrorCode {
 
     //회차
     E2000,
+    E2001,
+    E2002,
 }
