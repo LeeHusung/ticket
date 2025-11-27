@@ -1,18 +1,31 @@
 package com.ticket.core.domain.performanceseat;
 
-public class PerformanceSeat {
-    private final int count;
+import com.ticket.core.domain.performance.Performance;
 
-    public PerformanceSeat(final int count) {
-        this.count = count;
+import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class PerformanceSeat {
+    private final Performance performance;
+    private final AtomicInteger count;
+
+    public PerformanceSeat(final Performance performance, final int count) {
+        this.performance = performance;
+        this.count = new AtomicInteger(count);
     }
 
-    public int getCount() {
+    public AtomicInteger getCount() {
         return count;
     }
 
-    public boolean canReservation() {
-        return this.count > 0;
+    private boolean canReservation() {
+        return this.count.get() > 0;
     }
 
+    public boolean reserve(final Long userId, final LocalDateTime now) {
+        if (!canReservation()) return false;
+        if (performance.isPastPerformance(now)) return false;
+        this.count.decrementAndGet();
+        return true;
+    }
 }
