@@ -1,11 +1,8 @@
 package com.ticket.core.domain.member.vo;
 
-import jakarta.persistence.Embeddable;
-
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-@Embeddable
 public class Email {
     private String email;
 
