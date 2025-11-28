@@ -91,10 +91,10 @@ public class MemberServiceTest {
     void 이미_존재하는_이메일이면_회원가입에_실패한다() {
         //given
         final AddMember addMember = new AddMember("test@test.com", "1234", "ANONYMOUS");
-        when(memberRepository.existsByEmailAddress("test@test.com")).thenReturn(true);
+        when(memberRepository.existsByEmail("test@test.com")).thenReturn(true);
         //then
         assertThatThrownBy(() -> memberService.register(addMember)).isInstanceOf(CoreException.class);
-        verify(memberRepository, times(1)).existsByEmailAddress("test@test.com");
+        verify(memberRepository, times(1)).existsByEmail("test@test.com");
         verify(memberRepository, never()).save(any(MemberEntity.class));
         verify(passwordEncoder, never()).encode(anyString());
     }

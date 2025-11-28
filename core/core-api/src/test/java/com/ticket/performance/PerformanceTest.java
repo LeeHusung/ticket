@@ -19,6 +19,7 @@ public class PerformanceTest {
 
     @Test
         //todo 이렇게 시간 설정을 하게 되면 나중에 reserveOpenTime이 지나고 테스트를 돌리면 이 결과는 바뀐다. -> 수정 필요.
+    //근데 회차 시간은 대부분 딱 고정되어 있다. now().plusHours(5) 이렇게 해버리면 계속 시간이 바뀌지 않나?
     void 예매_오픈_시간_전에는_예매가_불가능하다() {
         //given
         int seatCount = 4;
