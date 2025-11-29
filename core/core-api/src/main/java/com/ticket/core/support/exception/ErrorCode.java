@@ -1,8 +1,15 @@
 package com.ticket.core.support.exception;
 
 public enum ErrorCode {
-    E401,
     E404,
-    E409,
-    E500
+    E500,
+
+    //회원
+    E1000,
+    E1001,
+
+    //회차
+    E2000,
+    E2001,
+    E2002,
 }

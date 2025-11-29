@@ -50,7 +50,6 @@ public class MemberServiceTest {
         String name = "ANONYMOUS";
         when(memberRepository.save(any(MemberEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
         //when
-        //service에서 생성된 회원의 id를 리턴하는데, 여기 테스트코드는 npe 에러난다. 생성된 회원이 null이라 service에서 애초에 에러남. 방법은 stub? 엔티티 mock의 id를 세팅해주는 법뿐?
         memberService.register(new AddMember(email, password, name));
         //then
         verify(passwordPolicyValidator).validateAdd(password);
@@ -92,10 +91,10 @@ public class MemberServiceTest {
     void 이미_존재하는_이메일이면_회원가입에_실패한다() {
         //given
         final AddMember addMember = new AddMember("test@test.com", "1234", "ANONYMOUS");
-        when(memberRepository.existsByEmailAddress("test@test.com")).thenReturn(true);
+        when(memberRepository.existsByEmail("test@test.com")).thenReturn(true);
         //then
         assertThatThrownBy(() -> memberService.register(addMember)).isInstanceOf(CoreException.class);
-        verify(memberRepository, times(1)).existsByEmailAddress("test@test.com");
+        verify(memberRepository, times(1)).existsByEmail("test@test.com");
         verify(memberRepository, never()).save(any(MemberEntity.class));
         verify(passwordEncoder, never()).encode(anyString());
     }

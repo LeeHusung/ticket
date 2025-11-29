@@ -5,7 +5,6 @@ import com.ticket.core.support.exception.CoreException;
 import com.ticket.core.support.exception.ErrorType;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
-import com.ticket.support.exception.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,7 @@ public class MemberService {
         //비밀번호 정책 관련 많이 나올듯 해서 분리함.
         passwordPolicyValidator.validateAdd(addMember.getPassword());
         //이메일 정책은 중복 밖에 없을듯 해서 굳이 분리하지 않음.
-        if (memberRepository.existsByEmailAddress(addMember.getEmail())) {
+        if (memberRepository.existsByEmail(addMember.getEmail())) {
             throw new CoreException(ErrorType.DUPLICATE_EMAIL_ERROR);
         }
         final MemberEntity savedMember = memberRepository.save(new MemberEntity(
