@@ -17,7 +17,7 @@ public class ReservationTest {
         //given
         Long memberId = 1L;
         int seatCount = 4;
-        final Performance performance = new Performance(performanceStartTime(), performanceEndTime(), reserveOpenTimeCurrent(), reserveCloseTimeCurrent());
+        final Performance performance = new Performance(1L, performanceStartTime(), performanceEndTime(), reserveOpenTimeCurrent(), reserveCloseTimeCurrent());
         final PerformanceSeat performanceSeat = new PerformanceSeat(performance, seatCount);
         //when
         final LocalDateTime currTime = currentTime();
@@ -31,7 +31,7 @@ public class ReservationTest {
         //given
         Long memberId = 1L;
         int seatCount = 0;
-        final Performance performance = new Performance(currentTime().minusHours(10), currentTime().minusHours(5), reserveOpenTimeFuture(), reserveCloseTimeFuture());
+        final Performance performance = new Performance(1L, currentTime().minusHours(10), currentTime().minusHours(5), reserveOpenTimeFuture(), reserveCloseTimeFuture());
         final PerformanceSeat performanceSeat = new PerformanceSeat(performance, seatCount);
 
         final LocalDateTime currTime = currentTime();
@@ -46,7 +46,7 @@ public class ReservationTest {
         //given
         Long memberId = 1L;
         int seatCount = 0;
-        final Performance performance = new Performance(currentTime().minusHours(10), currentTime().minusHours(5), reserveOpenTimeFuture(), reserveCloseTimeFuture());
+        final Performance performance = new Performance(1L, currentTime().minusHours(10), currentTime().minusHours(5), reserveOpenTimeFuture(), reserveCloseTimeFuture());
         final PerformanceSeat performanceSeat = new PerformanceSeat(performance, seatCount);
 
         final LocalDateTime currTime = currentTime();
