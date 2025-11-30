@@ -17,7 +17,7 @@ public class ReservationController {
     }
 
     /**
-     * 선점
+     * 예매
      * @param request
      */
     @PostMapping
