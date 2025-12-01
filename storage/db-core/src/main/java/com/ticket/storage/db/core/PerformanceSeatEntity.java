@@ -4,6 +4,7 @@ import com.ticket.core.enums.PerformanceSeatStatus;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "PERFORMANCE_SEAT")
 public class PerformanceSeatEntity {
 
     @Id @GeneratedValue
@@ -17,4 +18,20 @@ public class PerformanceSeatEntity {
     private PerformanceSeatStatus status;
 
     protected PerformanceSeatEntity() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getPerformanceId() {
+        return performanceId;
+    }
+
+    public Long getSeatId() {
+        return seatId;
+    }
+
+    public PerformanceSeatStatus getStatus() {
+        return status;
+    }
 }
