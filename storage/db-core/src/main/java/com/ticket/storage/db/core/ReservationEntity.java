@@ -4,8 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
-import java.util.List;
-
 @Entity
 public class ReservationEntity {
 
@@ -16,14 +14,11 @@ public class ReservationEntity {
 
     private Long performanceId;
 
-    private List<Long> seatIds;
-
     protected ReservationEntity() {}
 
-    public ReservationEntity(final Long memberId, final Long performanceId, final List<Long> seatIds) {
+    public ReservationEntity(final Long memberId, final Long performanceId) {
         this.memberId = memberId;
         this.performanceId = performanceId;
-        this.seatIds = seatIds;
     }
 
     public Long getId() {
@@ -38,7 +33,4 @@ public class ReservationEntity {
         return performanceId;
     }
 
-    public List<Long> getSeatIds() {
-        return seatIds;
-    }
 }

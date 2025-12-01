@@ -14,16 +14,12 @@ public class SeatEntity {
     //열
     private String y;
 
-    @Enumerated(EnumType.STRING)
-    private SeatStatus status;
-
     protected SeatEntity() {}
 
-    public SeatEntity(final Long id, final String x, final String y, final SeatStatus status) {
+    public SeatEntity(final Long id, final String x, final String y) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.status = status;
     }
 
     public Long getId() {
@@ -38,7 +34,4 @@ public class SeatEntity {
         return y;
     }
 
-    public SeatStatus getStatus() {
-        return status;
-    }
 }

@@ -1,8 +1,7 @@
 package com.ticket.storage.db.core;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.ticket.core.enums.PerformanceSeatStatus;
+import jakarta.persistence.*;
 
 @Entity
 public class PerformanceSeatEntity {
@@ -13,6 +12,9 @@ public class PerformanceSeatEntity {
     private Long performanceId;
 
     private Long seatId;
+
+    @Enumerated(EnumType.STRING)
+    private PerformanceSeatStatus status;
 
     protected PerformanceSeatEntity() {}
 }
