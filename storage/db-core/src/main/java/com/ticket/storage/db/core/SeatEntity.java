@@ -3,6 +3,7 @@ package com.ticket.storage.db.core;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "SEAT")
 public class SeatEntity {
 
     @Id @GeneratedValue
