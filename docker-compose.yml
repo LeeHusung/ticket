@@ -3,7 +3,7 @@ services:
     image: mysql:8.0
     container_name: ticket-mysql
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: ticket
@@ -13,6 +13,7 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql-data:/var/lib/mysql
     restart: always
