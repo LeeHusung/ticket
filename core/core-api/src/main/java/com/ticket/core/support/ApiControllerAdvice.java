@@ -1,5 +1,6 @@
 package com.ticket.core.support;
 
+import com.ticket.core.support.exception.AuthException;
 import com.ticket.core.support.exception.CoreException;
 import com.ticket.core.support.exception.ErrorType;
 import com.ticket.core.support.response.ApiResponse;
@@ -20,6 +21,13 @@ public class ApiControllerAdvice {
         return ResponseEntity
                 .status(ErrorType.DEFAULT_ERROR.getStatus())
                 .body(ApiResponse.error(ErrorType.DEFAULT_ERROR));
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ApiResponse<Object>> handleAuthException(AuthException e) {
+        return ResponseEntity
+                .status(e.getErrorType().getStatus())
+                .body(ApiResponse.error(e.getErrorType(), e.getData()));
     }
 
     @ExceptionHandler(CoreException.class)

@@ -2,7 +2,6 @@ package com.ticket.core.config;
 
 import com.ticket.core.domain.auth.SessionConst;
 import com.ticket.core.domain.member.MemberDetails;
-import com.ticket.core.domain.member.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.core.MethodParameter;
@@ -18,7 +17,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     }
 
     @Override
-    public Object resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer, final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) throws Exception {
+    public MemberDetails resolveArgument(final MethodParameter parameter, final ModelAndViewContainer mavContainer, final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) throws Exception {
         final HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpSession session = request.getSession(false);
 
@@ -26,11 +25,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             return null;
         }
 
-        Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (member == null) {
-            return null;
-        }
-
-        return new MemberDetails(member.getId());
+        return (MemberDetails) session.getAttribute(SessionConst.LOGIN_MEMBER);
     }
 }
