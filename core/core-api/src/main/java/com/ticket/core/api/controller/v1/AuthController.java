@@ -1,0 +1,41 @@
+package com.ticket.core.api.controller.v1;
+
+import com.ticket.core.api.controller.v1.request.AddMemberRequest;
+import com.ticket.core.api.controller.v1.request.LoginMemberRequest;
+import com.ticket.core.domain.auth.SessionConst;
+import com.ticket.core.domain.member.Member;
+import com.ticket.core.domain.member.MemberDetails;
+import com.ticket.core.domain.member.MemberService;
+import com.ticket.core.support.response.ApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/auth")
+public class AuthController {
+
+    private final MemberService memberService;
+
+    public AuthController(final MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @PostMapping
+    public ApiResponse<Long> register(@RequestBody @Valid AddMemberRequest request) {
+        return ApiResponse.success(memberService.register(request.toAddMember()));
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<Long> login(@RequestBody @Valid LoginMemberRequest request, HttpServletRequest httpRequest) {
+        final Member loginedMember = memberService.login(request.getEmail(), request.getPassword());
+
+        final HttpSession session = httpRequest.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, new MemberDetails(loginedMember.getId(), loginedMember.getRole()));
+        return ApiResponse.success(loginedMember.getId());
+    }
+}
