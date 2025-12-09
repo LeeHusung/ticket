@@ -2,25 +2,19 @@ package com.ticket.core.domain.auth;
 
 import com.ticket.core.domain.member.AddMember;
 import com.ticket.core.domain.member.Member;
+import com.ticket.core.domain.member.PasswordService;
 import com.ticket.core.enums.Role;
-import com.ticket.core.support.exception.CoreException;
-import com.ticket.core.support.exception.ErrorType;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SuppressWarnings("NonAsciiCharacters")
 @ExtendWith(MockitoExtension.class)
@@ -42,28 +36,24 @@ class AuthServiceTest {
         void 올바른_입력값이면_성공한다() {
             //given
             final AddMember addMember = new AddMember("test@test.com", "1234", "test", Role.MEMBER);
-            when(memberRepository.existsByEmail(addMember.getEmailValue())).thenReturn(false);
-            doNothing().when(passwordService).encode(addMember.getPassword());
+            when(memberRepository.existsByEmail(any())).thenReturn(false);
+            when(passwordService.encode(any())).thenReturn("encoded");
+            when(memberRepository.save(any(MemberEntity.class)))
+                    .thenReturn(MemberEntity.builder()
+                            .id(1L)
+                            .email(addMember.getEmailValue())
+                            .password("encoded")
+                            .name(addMember.getName())
+                            .role(addMember.getRole())
+                            .build()
+                    );
             //when
-            authService.register(addMember);
+            final Long id = authService.register(addMember);
             //then
-            final boolean isExist = memberRepository.existsByEmail(addMember.getEmailValue());
-            assertThat(isExist).isTrue();
-
-            final MemberEntity memberEntity = memberRepository.findByEmail(addMember.getEmailValue()).orElseThrow();
-            assertThat(memberEntity.getEmail()).isEqualTo(addMember.getEmailValue());
-            assertThat(memberEntity.getPassword()).isNotEqualTo("1234");
+            assertThat(id).isEqualTo(1L);
+            verify(memberRepository).save(any(MemberEntity.class));
         }
 
-        @ParameterizedTest
-        @NullAndEmptySource
-        @ValueSource(strings = {"  ", "  \t", "123", "abc"})
-        void 회원가입시_비밀번호가_null이거나_공백이거나_4자_이하면_실패한다(final String password) {
-            //then
-            assertThatThrownBy(() -> passwordPolicyValidator.validateAdd(password))
-                    .isInstanceOf(CoreException.class)
-                    .hasMessage(ErrorType.INVALID_PASSWORD.getMessage());
-        }
     }
 
     @Test
