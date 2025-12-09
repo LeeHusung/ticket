@@ -1,11 +1,11 @@
 package com.ticket.core.domain.auth;
 
 import com.ticket.core.domain.member.AddMember;
-import com.ticket.core.domain.member.PasswordPolicyValidator;
 import com.ticket.core.enums.Role;
 import com.ticket.core.support.exception.CoreException;
 import com.ticket.core.support.exception.ErrorType;
 import com.ticket.storage.db.core.MemberRepository;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,17 +29,21 @@ public class AuthServiceTest {
     @Mock
     private PasswordPolicyValidator passwordPolicyValidator;
 
-    @Test
-    void 회원가입시_중복_이메일이면_실패한다() {
-        //given
-        final AddMember addMember = new AddMember("test@test.com", "1234", "test", Role.MEMBER);
-        when(memberRepository.existsByEmail(addMember.getEmail())).thenReturn(true);
-        doNothing().when(passwordPolicyValidator).validateAdd(addMember.getPassword());
-        //when
+    @Nested
+    class 회원가입 {
+        @Test
+        void 중복_이메일이면_실패한다() {
+            //given
+            final AddMember addMember = new AddMember("test@test.com", "1234", "test", Role.MEMBER);
+            when(memberRepository.existsByEmail(addMember.getEmail())).thenReturn(true);
+            doNothing().when(passwordPolicyValidator).validateAdd(addMember.getPassword());
+            //when
 
-        //then
-        assertThatThrownBy(() -> authService.register(addMember))
-                .isInstanceOf(CoreException.class)
-                .hasMessage(ErrorType.DUPLICATE_EMAIL_ERROR.getMessage());
+            //then
+            assertThatThrownBy(() -> authService.register(addMember))
+                    .isInstanceOf(CoreException.class)
+                    .hasMessage(ErrorType.DUPLICATE_EMAIL_ERROR.getMessage());
+        }
+
     }
 }
