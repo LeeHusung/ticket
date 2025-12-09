@@ -1,17 +1,18 @@
 package com.ticket.core.domain.member;
 
+import com.ticket.core.domain.member.vo.Password;
 import com.ticket.core.enums.Role;
 
 public class AddMember {
 
     private final String email;
-    private final String password;
+    private final Password password;
     private final String name;
     private final Role role;
 
-    public AddMember(final String email, final String password, final String name, final Role role) {
+    public AddMember(final String email, final String rawPassword, final String name, final Role role) {
         this.email = email;
-        this.password = password;
+        this.password = new Password(rawPassword);
         this.name = name;
         this.role = role;
     }
@@ -20,7 +21,7 @@ public class AddMember {
         return email;
     }
 
-    public String getPassword() {
+    public Password getPassword() {
         return password;
     }
 
