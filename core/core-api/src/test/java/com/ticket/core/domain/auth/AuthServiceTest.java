@@ -4,6 +4,7 @@ import com.ticket.core.domain.member.AddMember;
 import com.ticket.core.domain.member.Member;
 import com.ticket.core.domain.member.PasswordService;
 import com.ticket.core.enums.Role;
+import com.ticket.core.support.exception.CoreException;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @SuppressWarnings("NonAsciiCharacters")
@@ -52,6 +54,17 @@ class AuthServiceTest {
             //then
             assertThat(id).isEqualTo(1L);
             verify(memberRepository).save(any(MemberEntity.class));
+        }
+
+        @Test
+        void 중복된_이메일이면_실패한다() {
+            //given
+            final AddMember addMember = new AddMember("test@test.com", "1234", "test", Role.MEMBER);
+            when(memberRepository.existsByEmail(addMember.getEmailValue())).thenReturn(true);
+            //then
+            assertThatThrownBy(() -> authService.register(addMember))
+                    .isInstanceOf(CoreException.class);
+
         }
 
     }
