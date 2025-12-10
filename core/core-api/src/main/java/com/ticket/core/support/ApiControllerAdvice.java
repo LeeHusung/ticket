@@ -7,8 +7,12 @@ import com.ticket.core.support.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ApiControllerAdvice {
@@ -35,5 +39,16 @@ public class ApiControllerAdvice {
         return ResponseEntity
                 .status(e.getErrorType().getStatus())
                 .body(ApiResponse.error(e.getErrorType(), e.getData()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Object>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        List<String> errorMessages = e.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.toList());
+
+        return ResponseEntity
+                .status(e.getStatusCode())
+                .body(ApiResponse.error(ErrorType.VALIDATION_ERROR, errorMessages));
     }
 }
