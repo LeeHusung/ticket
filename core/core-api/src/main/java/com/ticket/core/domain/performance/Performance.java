@@ -15,7 +15,7 @@ public class Performance {
 
     public Performance(Long id, LocalDateTime startTime, LocalDateTime endTime, LocalDateTime reserveOpenTime, LocalDateTime reserveCloseTime) {
         if (startTime.isAfter(endTime)) {
-            throw new CoreException(ErrorType.IS_NOT_VALID_PERFORMANCE);
+            throw new CoreException(ErrorType.PERFORMANCE_IS_NOT_VALID);
         }
         this.id = id;
         this.startTime = startTime;

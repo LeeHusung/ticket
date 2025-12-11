@@ -15,7 +15,7 @@ public class AddMember {
 
     public AddMember(final String email, final String rawPassword, final String name, final Role role) {
         if (name == null || name.trim().isBlank()) {
-            throw new CoreException(ErrorType.VALIDATION_ERROR, "이름은 공백일 수 없습니다.");
+            throw new CoreException(ErrorType.INVALID_REQUEST, "이름은 공백일 수 없습니다.");
         }
         this.email = Email.create(email);
         this.password = Password.create(rawPassword);

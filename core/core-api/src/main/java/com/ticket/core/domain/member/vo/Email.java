@@ -19,14 +19,14 @@ public class Email {
 
     private static String validate(final String email) {
         if (email == null) {
-            throw new CoreException(ErrorType.VALIDATION_ERROR, "email은 null일 수 없습니다.");
+            throw new CoreException(ErrorType.INVALID_REQUEST, "email은 null일 수 없습니다.");
         }
         String trimmed = email.trim();
         if (trimmed.isEmpty()) {
-            throw new CoreException(ErrorType.VALIDATION_ERROR, "email은 빈 값일 수 없습니다.");
+            throw new CoreException(ErrorType.INVALID_REQUEST, "email은 빈 값일 수 없습니다.");
         }
         if (!EMAIL_PATTERN.matcher(trimmed).matches()) {
-            throw new CoreException(ErrorType.VALIDATION_ERROR, "올바르지 않은 email 형식입니다.");
+            throw new CoreException(ErrorType.INVALID_REQUEST, "올바르지 않은 email 형식입니다.");
         }
         return trimmed;
     }
