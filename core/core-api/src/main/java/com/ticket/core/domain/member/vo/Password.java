@@ -23,10 +23,11 @@ public class Password {
         if (rawValue == null) {
             throw new CoreException(ErrorType.INVALID_REQUEST, "password는 null일 수 없습니다.");
         }
-        if (rawValue.trim().isEmpty()) {
+        final String trimmedValue = rawValue.trim();
+        if (trimmedValue.isEmpty()) {
             throw new CoreException(ErrorType.INVALID_REQUEST, "password는 빈 값일 수 없습니다.");
         }
-        if (rawValue.length() < MINIMUM_PASSWORD_LENGTH) {
+        if (trimmedValue.length() < MINIMUM_PASSWORD_LENGTH) {
             throw new CoreException(ErrorType.INVALID_REQUEST, "password는 4자 이상이어야 합니다.");
         }
     }
