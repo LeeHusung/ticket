@@ -4,20 +4,20 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorType {
     DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "알 수 없는 에러입니다."),
-    NOT_FOUND(HttpStatus.NOT_FOUND, ErrorCode.E404, "요청하신 정보를 찾을 수 없습니다."),
-    VALIDATION_ERROR(HttpStatus.BAD_REQUEST, ErrorCode.E400, "유효하지 않은 입력입니다."),
+    NOT_FOUND_DATA(HttpStatus.NOT_FOUND, ErrorCode.E404, "요청하신 정보를 찾을 수 없습니다."),
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, ErrorCode.E400, "요청이 올바르지 않습니다."),
 
     //AUTH
     AUTHENTICATION_ERROR(HttpStatus.UNAUTHORIZED, ErrorCode.E1000, "로그인이 필요합니다."),
     AUTHORIZATION_ERROR(HttpStatus.FORBIDDEN, ErrorCode.E1001, "권한이 없습니다."),
 
     //회원
-    DUPLICATE_EMAIL_ERROR(HttpStatus.CONFLICT, ErrorCode.E2000, "중복된 이메일은 불가능합니다."),
-    NOT_MATCH_PASSWORD(HttpStatus.UNAUTHORIZED, ErrorCode.E2001, "비밀번호가 일치하지 않습니다."),
+    MEMBER_DUPLICATE_EMAIL(HttpStatus.CONFLICT, ErrorCode.E2000, "중복된 이메일은 불가능합니다."),
+    MEMBER_NOT_MATCH_PASSWORD(HttpStatus.UNAUTHORIZED, ErrorCode.E2001, "비밀번호가 일치하지 않습니다."),
 
     //회차
-    IS_NOT_VALID_PERFORMANCE(HttpStatus.BAD_REQUEST, ErrorCode.E3000, "유효하지 않은 공연 정보입니다."),
-    IS_PAST_PERFORMANCE(HttpStatus.BAD_REQUEST, ErrorCode.E3001, "과거 공연은 예매할 수 없습니다."),
+    PERFORMANCE_IS_NOT_VALID(HttpStatus.BAD_REQUEST, ErrorCode.E3000, "유효하지 않은 공연 정보입니다."),
+    PERFORMANCE_IS_PAST(HttpStatus.BAD_REQUEST, ErrorCode.E3001, "과거 공연은 예매할 수 없습니다."),
     NOT_YET_RESERVE_TIME(HttpStatus.BAD_REQUEST, ErrorCode.E3002, "아직 예매가 오픈되지 않았습니다."),
     NOT_EXIST_AVAILABLE_SEAT(HttpStatus.BAD_REQUEST, ErrorCode.E3003, "이용 가능한 좌석이 없습니다."),
 

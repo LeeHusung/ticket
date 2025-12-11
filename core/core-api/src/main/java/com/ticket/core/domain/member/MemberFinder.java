@@ -16,7 +16,7 @@ public class MemberFinder {
     }
 
     public Member find(final Long id) {
-        final MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND));
+        final MemberEntity memberEntity = memberRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_DATA));
         return new Member(memberEntity.getId(), memberEntity.getEmail(), memberEntity.getName(), memberEntity.getRole());
     }
 }

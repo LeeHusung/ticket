@@ -26,7 +26,7 @@ public class AuthService {
     @Transactional
     public Long register(final AddMember addMember) {
         if (memberRepository.existsByEmail(addMember.getEmailValue())) {
-            throw new CoreException(ErrorType.DUPLICATE_EMAIL_ERROR);
+            throw new CoreException(ErrorType.MEMBER_DUPLICATE_EMAIL);
         }
         final MemberEntity savedMember = memberRepository.save(new MemberEntity(
                 addMember.getEmailValue(),
@@ -39,10 +39,10 @@ public class AuthService {
 
     public Member login(final Email email, final Password password) {
         final MemberEntity foundMemberEntity = memberRepository.findByEmail(email.getValue())
-                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND));
+                .orElseThrow(() -> new CoreException(ErrorType.NOT_FOUND_DATA));
 
         if (!passwordService.matches(password.getValue(), foundMemberEntity.getPassword())) {
-            throw new CoreException(ErrorType.NOT_MATCH_PASSWORD);
+            throw new CoreException(ErrorType.MEMBER_NOT_MATCH_PASSWORD);
         }
         return new Member(foundMemberEntity.getId(), foundMemberEntity.getEmail(), foundMemberEntity.getName(), foundMemberEntity.getRole());
     }

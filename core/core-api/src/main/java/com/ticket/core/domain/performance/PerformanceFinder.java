@@ -16,7 +16,7 @@ public class PerformanceFinder {
     }
 
     public Performance find(final Long id) {
-        final PerformanceEntity performanceEntity = performanceRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND));
+        final PerformanceEntity performanceEntity = performanceRepository.findById(id).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_DATA));
         return new Performance(performanceEntity.getId(), performanceEntity.getStartTime(), performanceEntity.getEndTime(), performanceEntity.getReserveOpenTime(), performanceEntity.getReserveCloseTime());
     }
 }

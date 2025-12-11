@@ -49,6 +49,6 @@ public class ApiControllerAdvice {
 
         return ResponseEntity
                 .status(e.getStatusCode())
-                .body(ApiResponse.error(ErrorType.VALIDATION_ERROR, errorMessages));
+                .body(ApiResponse.error(ErrorType.INVALID_REQUEST, errorMessages));
     }
 }
