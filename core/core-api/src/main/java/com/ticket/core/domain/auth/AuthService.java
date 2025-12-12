@@ -9,6 +9,7 @@ import com.ticket.core.support.exception.CoreException;
 import com.ticket.core.support.exception.ErrorType;
 import com.ticket.storage.db.core.MemberEntity;
 import com.ticket.storage.db.core.MemberRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,13 +30,18 @@ public class AuthService {
         if (memberRepository.existsByEmail(addMember.getEmailValue())) {
             throw new CoreException(ErrorType.MEMBER_DUPLICATE_EMAIL);
         }
-        final MemberEntity savedMember = memberRepository.save(new MemberEntity(
+        final MemberEntity memberEntity = new MemberEntity(
                 addMember.getEmailValue(),
                 passwordService.encode(addMember.getPassword()),
                 addMember.getName(),
                 addMember.getRole()
-        ));
-        return savedMember.getId();
+        );
+
+        try {
+            return memberRepository.save(memberEntity).getId();
+        } catch (DataIntegrityViolationException e) {
+            throw new CoreException(ErrorType.MEMBER_DUPLICATE_EMAIL);
+        }
     }
 
     public Member login(final Email email, final Password password) {
