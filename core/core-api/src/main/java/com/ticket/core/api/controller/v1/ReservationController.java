@@ -1,6 +1,7 @@
 package com.ticket.core.api.controller.v1;
 
-import com.ticket.core.api.controller.v1.request.CreateReservationRequest;
+import com.ticket.core.api.controller.v1.request.AddReservationRequest;
+import com.ticket.core.domain.member.MemberDetails;
 import com.ticket.core.domain.reservation.ReservationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +22,8 @@ public class ReservationController {
      * 예매
      * @param request
      */
-    @PostMapping("/v1/reserve/{performanceId}")
-    public void reserve(@PathVariable Long performanceId, @RequestBody @Valid CreateReservationRequest request) {
-        reservationService.reserve(request.toNewReservation(performanceId));
+    @PostMapping("/api/v1/reserve/{performanceId}")
+    public void reserve(MemberDetails memberDetails, @PathVariable Long performanceId, @RequestBody @Valid AddReservationRequest request) {
+        reservationService.reserve(request.toNewReservation(memberDetails.getMemberId(), performanceId));
     }
 }

@@ -5,22 +5,16 @@ import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
-public class CreateReservationRequest {
-
-    private Long memberId;
+public class AddReservationRequest {
 
     @NotEmpty
     private List<Long> seatIds;
-
-    public Long getMemberId() {
-        return memberId;
-    }
 
     public List<Long> getSeatIds() {
         return seatIds;
     }
 
-    public NewReservation toNewReservation(final Long performanceId) {
+    public NewReservation toNewReservation(final Long memberId, final Long performanceId) {
         return new NewReservation(memberId, performanceId, seatIds);
     }
 }
