@@ -20,6 +20,16 @@ public class AddReservationRequest {
     @NotEmpty
     private List<Long> seatIds;
 
+    public AddReservationRequest() {}
+
+    public Long getShowId() {
+        return showId;
+    }
+
+    public Long getPerformanceId() {
+        return performanceId;
+    }
+
     public List<Long> getSeatIds() {
         return seatIds;
     }
