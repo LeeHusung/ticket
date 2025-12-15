@@ -2,32 +2,38 @@ package com.ticket.core.domain.reservation;
 
 import com.ticket.core.domain.member.Member;
 import com.ticket.core.domain.member.MemberFinder;
-import com.ticket.core.domain.performance.Performance;
-import com.ticket.core.domain.performance.PerformanceFinder;
-import com.ticket.core.enums.PerformanceSeatStatus;
+import com.ticket.core.enums.EntityStatus;
+import com.ticket.core.enums.PerformanceSeatState;
+import com.ticket.core.enums.PerformanceState;
+import com.ticket.core.support.exception.ErrorType;
+import com.ticket.core.support.exception.NotFoundException;
 import com.ticket.storage.db.core.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class ReservationService {
 
     private final MemberFinder memberFinder;
-    private final PerformanceFinder performanceFinder;
+    private final ShowRepository showRepository;
+    private final PerformanceRepository performanceRepository;
     private final PerformanceSeatRepository performanceSeatRepository;
     private final ReservationRepository reservationRepository;
     private final ReservationDetailRepository reservationDetailRepository;
 
     public ReservationService(final MemberFinder memberFinder,
-                              final PerformanceFinder performanceFinder,
+                              final ShowRepository showRepository,
+                              final PerformanceRepository performanceRepository,
                               final PerformanceSeatRepository performanceSeatRepository,
                               final ReservationRepository reservationRepository,
                               final ReservationDetailRepository reservationDetailRepository
     ) {
         this.memberFinder = memberFinder;
-        this.performanceFinder = performanceFinder;
+        this.showRepository = showRepository;
+        this.performanceRepository = performanceRepository;
         this.performanceSeatRepository = performanceSeatRepository;
         this.reservationRepository = reservationRepository;
         this.reservationDetailRepository = reservationDetailRepository;
@@ -36,18 +42,39 @@ public class ReservationService {
     @Transactional
     public void reserve(final NewReservation newReservation) {
         final Member foundMember = memberFinder.find(newReservation.getMemberId());
-        final Performance foundPerformance = performanceFinder.find(newReservation.getPerformanceId());
-        final List<PerformanceSeatEntity> performanceSeats = performanceSeatRepository.findByPerformanceIdAndSeatIdInAndStatus(
-                newReservation.getPerformanceId(), newReservation.getSeatIds(), PerformanceSeatStatus.AVAILABLE
+        final ShowEntity foundShow = showRepository.findByIdAndStatus(newReservation.getShowId(), EntityStatus.ACTIVE)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_DATA));
+        final PerformanceEntity foundPerformance = performanceRepository.findByIdAndShowIdAndStateAndStatus(
+                        newReservation.getPerformanceId(),
+                        foundShow.getId(),
+                        PerformanceState.ACTIVE,
+                        EntityStatus.ACTIVE)
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_DATA));
+
+        final List<PerformanceSeatEntity> performanceSeats = performanceSeatRepository.findByPerformanceIdAndSeatIdInAndState(
+                foundPerformance.getId(),
+                newReservation.getSeatIds(),
+                PerformanceSeatState.AVAILABLE
         );
 
         performanceSeats.forEach(PerformanceSeatEntity::reserve);
 
-        final ReservationEntity savedReservation = reservationRepository.save(new ReservationEntity(foundMember.getId(), foundPerformance.getId()));
-        reservationDetailRepository.saveAll(
-                performanceSeats.stream()
-                .map(p -> new ReservationDetailEntity(savedReservation.getId(), p.getId()))
-                .toList()
+        final Reservation reservation = new Reservation(
+                foundMember.getId(),
+                foundShow.getId(),
+                foundPerformance.getId(),
+                newReservation.getSeatIds(),
+                LocalDateTime.now()
         );
+
+//        final ReservationEntity savedReservation = reservationRepository.save(new ReservationEntity(
+//                foundMember.getId(),
+//                foundShow.getId(),
+//                foundPerformance.getId()));
+//        reservationDetailRepository.saveAll(
+//                performanceSeats.stream()
+//                        .map(p -> new ReservationDetailEntity(savedReservation.getId(), p.getId()))
+//                        .toList()
+//        );
     }
 }
