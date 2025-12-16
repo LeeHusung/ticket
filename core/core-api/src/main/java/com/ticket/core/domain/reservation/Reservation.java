@@ -14,7 +14,7 @@ public class Reservation {
         this.memberId = memberId;
         this.showId = showId;
         this.performanceId = performanceId;
-        this.seatIds = seatIds;
+        this.seatIds = List.copyOf(seatIds);
         this.reservationTime = reservationTime;
     }
 
