@@ -11,7 +11,7 @@ public class NewReservation {
     public NewReservation(final Long memberId, final Long performanceId, final List<Long> seatIds) {
         this.memberId = memberId;
         this.performanceId = performanceId;
-        this.seatIds = seatIds;
+        this.seatIds = List.copyOf(seatIds);
     }
 
     public Long getMemberId() {
