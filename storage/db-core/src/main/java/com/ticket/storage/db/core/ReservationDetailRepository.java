@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ReservationDetailRepository extends JpaRepository<ReservationDetailEntity, Long> {
-    List<ReservationDetailEntity> findAllByReservationIdIn(List<Long> reservationIds);
+    long countByReservationIdIn(final List<Long> reservationIds);
 }
