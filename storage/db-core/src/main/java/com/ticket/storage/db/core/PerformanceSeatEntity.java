@@ -36,9 +36,6 @@ public class PerformanceSeatEntity extends BaseEntity {
     }
 
     public void reserve() {
-        if (this.state == PerformanceSeatState.RESERVED) {
-            throw new IllegalStateException("이미 예약된 좌석입니다."); //TODO 여기 예외 처리 어떻게?
-        }
         this.state = PerformanceSeatState.RESERVED;
     }
 }
