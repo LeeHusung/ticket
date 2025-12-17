@@ -1,6 +1,7 @@
 package com.ticket.core.api.controller.v1.request;
 
 import com.ticket.core.domain.reservation.NewReservation;
+import com.ticket.core.domain.seat.SeatIds;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -26,7 +27,7 @@ public class AddReservationRequest {
         return seatIds;
     }
 
-    public NewReservation toNewReservation(final Long memberId) {
-        return new NewReservation(memberId, performanceId, seatIds);
+    public NewReservation toNewReservation() {
+        return new NewReservation(performanceId, new SeatIds(seatIds));
     }
 }
