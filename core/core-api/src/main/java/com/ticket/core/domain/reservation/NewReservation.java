@@ -1,22 +1,28 @@
 package com.ticket.core.domain.reservation;
 
-import com.ticket.core.domain.seat.SeatIds;
+import java.util.List;
 
 public class NewReservation {
 
+    private final Long memberId;
     private final Long performanceId;
-    private final SeatIds seatIds;
+    private final List<Long> seatIds;
 
-    public NewReservation(final Long performanceId, final SeatIds seatIds) {
+    public NewReservation(final Long memberId, final Long performanceId, final List<Long> seatIds) {
+        this.memberId = memberId;
         this.performanceId = performanceId;
-        this.seatIds = seatIds;
+        this.seatIds = List.copyOf(seatIds);
+    }
+
+    public Long getMemberId() {
+        return memberId;
     }
 
     public Long getPerformanceId() {
         return performanceId;
     }
 
-    public SeatIds getSeatIds() {
+    public List<Long> getSeatIds() {
         return seatIds;
     }
 }
