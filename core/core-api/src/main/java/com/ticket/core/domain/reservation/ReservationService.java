@@ -66,15 +66,11 @@ public class ReservationService {
     }
 
     private List<PerformanceSeatEntity> findAvailablePerformanceSeats(final List<Long> seatIds, final Long performanceId) {
-        final List<PerformanceSeatEntity> performanceSeatEntities = performanceSeatRepository.findByPerformanceIdAndSeatIdInAndState(
+        return performanceSeatRepository.findByPerformanceIdAndSeatIdInAndState(
                 performanceId,
                 seatIds,
                 PerformanceSeatState.AVAILABLE
         );
-        if (performanceSeatEntities.isEmpty()) {
-            return List.of();
-        }
-        return performanceSeatEntities;
     }
 
 }
