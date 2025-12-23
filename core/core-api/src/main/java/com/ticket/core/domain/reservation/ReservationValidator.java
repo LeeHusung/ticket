@@ -21,7 +21,7 @@ public class ReservationValidator {
                             final int canReservePerformanceSeatsSize) {
         final long reservedCount = reservationDetailRepository.countByMemberIdAndPerformanceId(memberId, performance.getId());
 
-        if (performance.isOverCount(reservedCount + reserveRequestSeatSize) || performance.isOverCount(reserveRequestSeatSize)) {
+        if (performance.isOverCount(reservedCount + reserveRequestSeatSize)) {
             throw new CoreException(ErrorType.EXCEED_AVAILABLE_SEATS);
         }
 
