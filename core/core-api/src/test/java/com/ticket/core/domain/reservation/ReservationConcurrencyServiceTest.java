@@ -96,8 +96,8 @@ class ReservationConcurrencyServiceTest {
         ready.await();
         start.countDown();
         done.await();
-        System.out.println("result: " + successCount.get() + " / " + failCount.get());
         assertThat(successCount.get()).isEqualTo(1);
+        assertThat(failCount.get()).isEqualTo(99);
         final long reservationCount = reservationRepository.count();
         assertThat(reservationCount).isEqualTo(1);
         }
