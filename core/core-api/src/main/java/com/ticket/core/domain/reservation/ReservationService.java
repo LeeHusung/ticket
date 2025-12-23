@@ -71,7 +71,7 @@ public class ReservationService {
                 seatIds,
                 PerformanceSeatState.AVAILABLE
         );
-        if (performanceSeatEntities == null || performanceSeatEntities.isEmpty()) {
+        if (performanceSeatEntities.isEmpty()) {
             return List.of();
         }
         return performanceSeatEntities;
