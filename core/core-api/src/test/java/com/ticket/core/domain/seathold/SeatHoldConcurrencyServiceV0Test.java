@@ -1,4 +1,4 @@
-package com.ticket.core.domain.reservation;
+package com.ticket.core.domain.seathold;
 
 import com.ticket.core.enums.Role;
 import com.ticket.core.support.TestDataFactory;
@@ -22,10 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @SuppressWarnings("NonAsciiCharacters")
-class ReservationConcurrencyServiceV2Test {
+class SeatHoldConcurrencyServiceV0Test {
 
-    private static final Logger log = LoggerFactory.getLogger(ReservationConcurrencyServiceV2Test.class);
-    @Autowired private ReservationServiceV2 reservationService;
+    private static final Logger log = LoggerFactory.getLogger(SeatHoldConcurrencyServiceV0Test.class);
+    @Autowired private SeatHoldServiceV0 seatHoldService;
     @Autowired private MemberRepository memberRepository;
     @Autowired private PerformanceRepository performanceRepository;
     @Autowired private PerformanceSeatRepository performanceSeatRepository;
@@ -73,12 +73,12 @@ class ReservationConcurrencyServiceV2Test {
                 try {
                     ready.countDown();
                     start.await();
-                    final NewReservation request = new NewReservation(
+                    final NewSeatHold request = new NewSeatHold(
                             saveMembers.get(idx).getId(),
                             savedPerformance.getId(),
                             List.of(1L)
                     );
-                    reservationService.addReservation(request);
+                    seatHoldService.hold(request);
                     successCount.incrementAndGet();
                 } catch (Exception e) {
                     log.error("예약 실패: {}", e.getMessage(), e);
