@@ -11,11 +11,12 @@ import com.ticket.storage.db.core.PerformanceEntity;
 import com.ticket.storage.db.core.PerformanceRepository;
 import com.ticket.storage.db.core.PerformanceSeatEntity;
 import com.ticket.storage.db.core.PerformanceSeatRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//@Service
+@Service
 public class ReservationServiceV1 implements ReservationService {
 
     private final MemberFinder memberFinder;

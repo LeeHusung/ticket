@@ -1,4 +1,4 @@
-package com.ticket.core.domain.reservation;
+package com.ticket.core.domain.seathold;
 
 import com.ticket.core.domain.member.Member;
 import com.ticket.core.domain.member.MemberFinder;
@@ -9,37 +9,37 @@ import com.ticket.core.support.exception.CoreException;
 import com.ticket.core.support.exception.ErrorType;
 import com.ticket.core.support.exception.NotFoundException;
 import com.ticket.storage.db.core.*;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class ReservationServiceV2 implements ReservationService {
+public class SeatHoldServiceV0 implements SeatHoldService {
 
     private final MemberFinder memberFinder;
     private final PerformanceRepository performanceRepository;
     private final PerformanceSeatRepository performanceSeatRepository;
     private final SeatHoldRepository seatHoldRepository;
 
-    public ReservationServiceV2(final MemberFinder memberFinder,
+    public SeatHoldServiceV0(final MemberFinder memberFinder,
                                 final PerformanceRepository performanceRepository,
                                 final PerformanceSeatRepository performanceSeatRepository,
                                 final SeatHoldRepository seatHoldRepository
-) {
+    ) {
         this.memberFinder = memberFinder;
         this.performanceRepository = performanceRepository;
         this.performanceSeatRepository = performanceSeatRepository;
         this.seatHoldRepository = seatHoldRepository;
     }
 
-    //HOLD
+    @Override
     @Transactional
-    public void addReservation(final NewReservation newReservation) {
-        final Member foundMember = memberFinder.find(newReservation.getMemberId());
-        final PerformanceEntity foundPerformance = findOpenPerformance(newReservation.getPerformanceId());
-        final List<PerformanceSeatEntity> availablePerformanceSeats = findAvailablePerformanceSeats(newReservation.getSeatIds(), foundPerformance.getId());
+    public void hold(final NewSeatHold newSeatHold) {
+        final Member foundMember = memberFinder.find(newSeatHold.getMemberId());
+        final PerformanceEntity foundPerformance = findOpenPerformance(newSeatHold.getPerformanceId());
+        final List<PerformanceSeatEntity> availablePerformanceSeats = findAvailablePerformanceSeats(newSeatHold.getSeatIds(), foundPerformance.getId());
         if (availablePerformanceSeats.isEmpty()) {
             throw new CoreException(ErrorType.NOT_FOUND_DATA, "가능한 좌석이 없습니다.");
         }
@@ -49,9 +49,8 @@ public class ReservationServiceV2 implements ReservationService {
                 .map(m -> new SeatHoldEntity(foundMember.getId(), m.getId(), LocalDateTime.now().plusMinutes(5)))
                 .toList();
         seatHoldRepository.saveAll(seatHoldEntities);
-
-        //이제 reservation은 결제 이후 저장됨.
     }
+
 
     private PerformanceEntity findOpenPerformance(final Long performanceId) {
         return performanceRepository.findByIdAndStateAndStatus(
@@ -69,5 +68,4 @@ public class ReservationServiceV2 implements ReservationService {
                 PerformanceSeatState.AVAILABLE
         );
     }
-
 }

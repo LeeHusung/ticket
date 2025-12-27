@@ -1,0 +1,32 @@
+package com.ticket.core.api.controller.request;
+
+import com.ticket.core.domain.seathold.NewSeatHold;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+import java.util.List;
+
+public class AddSeatHoldRequest {
+
+    @Positive
+    @NotNull
+    private Long performanceId;
+
+    @NotEmpty
+    private List<@Positive @NotNull Long> seatIds;
+
+    public AddSeatHoldRequest() {}
+
+    public Long getPerformanceId() {
+        return performanceId;
+    }
+
+    public List<Long> getSeatIds() {
+        return seatIds;
+    }
+
+    public NewSeatHold toNewSeatHold(final Long memberId) {
+        return new NewSeatHold(memberId, performanceId, seatIds);
+    }
+}
