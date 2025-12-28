@@ -6,19 +6,19 @@ import java.util.List;
 
 public class SeatHoldInfoResponse {
     private final Long performanceId;
-    private final List<Long> performanceSeatId;
+    private final List<Long> performanceSeatIds;
     private final Long memberId;
     private final HoldState state;
 
-    private SeatHoldInfoResponse(final Long performanceId, final List<Long> performanceSeatId, final Long memberId, final HoldState state) {
+    private SeatHoldInfoResponse(final Long performanceId, final List<Long> performanceSeatIds, final Long memberId, final HoldState state) {
         this.performanceId = performanceId;
-        this.performanceSeatId = performanceSeatId;
+        this.performanceSeatIds = performanceSeatIds;
         this.memberId = memberId;
         this.state = state;
     }
 
     public static SeatHoldInfoResponse from(final SeatHoldInfo seatHoldInfo) {
-        return new SeatHoldInfoResponse(seatHoldInfo.getPerformanceId(), seatHoldInfo.getPerformanceSeatId(), seatHoldInfo.getMemberId(), seatHoldInfo.getState());
+        return new SeatHoldInfoResponse(seatHoldInfo.getPerformanceId(), seatHoldInfo.getPerformanceSeatIds(), seatHoldInfo.getMemberId(), seatHoldInfo.getState());
     }
 
 
@@ -26,8 +26,8 @@ public class SeatHoldInfoResponse {
         return performanceId;
     }
 
-    public List<Long> getPerformanceSeatId() {
-        return performanceSeatId;
+    public List<Long> getPerformanceSeatIds() {
+        return performanceSeatIds;
     }
 
     public Long getMemberId() {
