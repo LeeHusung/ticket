@@ -6,13 +6,13 @@ import java.util.List;
 
 public class SeatHoldInfo {
     private final Long performanceId;
-    private final List<Long> performanceSeatId;
+    private final List<Long> performanceSeatIds;
     private final Long memberId;
     private final HoldState state;
 
-    public SeatHoldInfo(final Long performanceId, final List<Long> performanceSeatId, final Long memberId, final HoldState state) {
+    public SeatHoldInfo(final Long performanceId, final List<Long> performanceSeatIds, final Long memberId, final HoldState state) {
         this.performanceId = performanceId;
-        this.performanceSeatId = performanceSeatId;
+        this.performanceSeatIds = performanceSeatIds;
         this.memberId = memberId;
 //        this.expireAt = expireAt;
         this.state = state;
@@ -22,8 +22,8 @@ public class SeatHoldInfo {
         return performanceId;
     }
 
-    public List<Long> getPerformanceSeatId() {
-        return performanceSeatId;
+    public List<Long> getPerformanceSeatIds() {
+        return performanceSeatIds;
     }
 
     public Long getMemberId() {
