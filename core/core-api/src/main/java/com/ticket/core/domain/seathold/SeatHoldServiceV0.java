@@ -12,8 +12,8 @@ import com.ticket.storage.db.core.PerformanceEntity;
 import com.ticket.storage.db.core.PerformanceSeatEntity;
 import com.ticket.storage.db.core.SeatHoldEntity;
 import com.ticket.storage.db.core.SeatHoldRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
