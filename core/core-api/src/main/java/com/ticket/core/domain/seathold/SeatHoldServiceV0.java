@@ -47,6 +47,11 @@ public class SeatHoldServiceV0 implements SeatHoldService {
         if (availablePerformanceSeats.size() != newSeatHold.getSeatIds().size()) {
             throw new CoreException(ErrorType.SEAT_COUNT_MISMATCH);
         }
+        for (PerformanceSeatEntity availablePerformanceSeat : availablePerformanceSeats) {
+            if (availablePerformanceSeat.getState() != PerformanceSeatState.AVAILABLE) {
+                throw new CoreException(ErrorType.NOT_FOUND_DATA, "가능한 좌석이 없습니다.");
+            }
+        }
         availablePerformanceSeats.forEach(PerformanceSeatEntity::hold);
 
         final List<SeatHoldEntity> seatHoldEntities = availablePerformanceSeats.stream()
