@@ -30,8 +30,9 @@ public interface PerformanceSeatRepository extends JpaRepository<PerformanceSeat
             UPDATE PerformanceSeatEntity ps
             SET ps.state = :changeState
             WHERE ps.id IN :performanceSeatIds
+            AND ps.state = :curState
             """)
-    void changeStateToAvailable(List<Long> performanceSeatIds, PerformanceSeatState changeState);
+    void changeHoldStateToAvailable(List<Long> performanceSeatIds, PerformanceSeatState curState, PerformanceSeatState changeState);
 
     List<PerformanceSeatEntity> findAllByPerformanceIdAndSeatIdIn(Long performanceId, Collection<Long> seatIds);
 }
