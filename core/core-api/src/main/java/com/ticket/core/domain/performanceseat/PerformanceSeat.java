@@ -68,9 +68,10 @@ public class PerformanceSeat {
         this.state = PerformanceSeatState.RESERVED;
     }
 
-    public void hold(final Integer holdTime, final String holdToken) {
+    public void hold(final Long memberId, final Integer holdTime, final String holdToken) {
         this.state = PerformanceSeatState.HELD;
         this.holdExpireAt = LocalDateTime.now().plusSeconds(holdTime);
+        this.holdByMemberId = memberId;
         this.holdToken = holdToken;
     }
 

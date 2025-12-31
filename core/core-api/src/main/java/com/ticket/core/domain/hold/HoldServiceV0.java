@@ -42,7 +42,7 @@ public class HoldServiceV0 implements HoldService {
             throw new CoreException(ErrorType.SEAT_COUNT_MISMATCH);
         }
         final HoldToken holdToken = new HoldToken(foundMember.getId());
-        availablePerformanceSeats.forEach(performanceSeat -> performanceSeat.hold(foundPerformance.getHoldTime(), holdToken.getToken()));
+        availablePerformanceSeats.forEach(performanceSeat -> performanceSeat.hold(foundMember.getId(), foundPerformance.getHoldTime(), holdToken.getToken()));
         return holdToken;
     }
 
