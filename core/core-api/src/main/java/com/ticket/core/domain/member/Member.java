@@ -1,11 +1,12 @@
 package com.ticket.core.domain.member;
 
+import com.ticket.core.domain.BaseEntity;
 import com.ticket.core.enums.Role;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "MEMBER")
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
