@@ -14,7 +14,7 @@ public interface PerformanceSeatRepository extends JpaRepository<PerformanceSeat
     @QueryHints({
             @QueryHint(name = "jakarta.persistence.lock.timeout", value = "3000")
     })
-    List<PerformanceSeat> findByPerformanceIdAndSeatIdInAndState(Long performanceId, List<Long> seatIds, PerformanceSeatState State);
+    List<PerformanceSeat> findByPerformanceIdAndSeatIdInAndState(Long performanceId, List<Long> seatIds, PerformanceSeatState state);
 
     @Modifying
     @Query("""
