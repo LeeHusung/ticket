@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("NonAsciiCharacters")
 class CustomSpringELParserTest {
@@ -48,5 +49,19 @@ class CustomSpringELParserTest {
         assertThat(keys).containsExactly("LOCK:1", "LOCK:2", "LOCK:3");
     }
 
+    @Test
+    void dynamicKey가_빈_배열이면_keys가_0개이므로_IllegalStateException을_던진다() {
+        // given
+        String prefix = "LOCK:";
+        String[] parameterNames = {"memberId"};
+        Object[] args = {1L};
+        String[] dynamicKey = {};
+
+        // when & then
+        assertThatThrownBy(() ->
+                CustomSpringELParser.getDynamicValue(prefix, parameterNames, args, dynamicKey)
+        ).isInstanceOf(IllegalStateException.class)
+                .hasMessage("keys가 0개입니다.");
+    }
 
 }
