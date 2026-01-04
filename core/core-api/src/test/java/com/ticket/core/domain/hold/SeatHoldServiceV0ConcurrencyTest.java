@@ -50,8 +50,8 @@ class SeatHoldServiceV0ConcurrencyTest extends IntegrationBase {
     @Test
     void 재고가_1개일때_여러_요청이_동시에_들어오면_비관적_락에_의해_한_명만_선점한다() throws InterruptedException {
         // given & when & then
-        ConcurrentTestUtil.execute(100, () -> holdService.hold(new NewSeatHold(
-                savedMembers.getFirst().getId(),
+        ConcurrentTestUtil.execute(100, idx -> holdService.hold(new NewSeatHold(
+                savedMembers.get(idx).getId(),
                 savedPerformance.getId(),
                 List.of(1L)
         )));

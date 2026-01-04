@@ -62,8 +62,8 @@ class ReservationServiceV1ConcurrencyTest extends IntegrationBase {
     @Test
     void 재고가_1개일때_여러_요청이_동시에_들어오면_비관적_락에_의해_예매가_오버셀되지_않는다() throws InterruptedException {
         // given & when & then
-        ConcurrentTestUtil.execute(100, () -> reservationService.addReservation(new NewReservation(
-                saveMembers.getFirst().getId(),
+        ConcurrentTestUtil.execute(100, idx -> reservationService.addReservation(new NewReservation(
+                saveMembers.get(idx).getId(),
                 savedPerformance.getId(),
                 List.of(1L)
         )));
