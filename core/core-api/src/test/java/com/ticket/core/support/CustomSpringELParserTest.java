@@ -1,7 +1,6 @@
 package com.ticket.core.support;
 
 import com.ticket.core.domain.hold.NewSeatHold;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -52,8 +51,7 @@ class CustomSpringELParserTest {
     }
 
     @Test
-    @DisplayName("SPEL에서 객체(Record/POJO)의 프로퍼티 접근이 가능하다")
-    void nestedPropertyAccess() {
+    void SPEL에서_객체의_프로퍼티_접근이_가능하다() {
         // given
         String prefix = "LOCK:";
         NewSeatHold newSeatHold = new NewSeatHold(1L, 2L, List.of(1L, 2L));
