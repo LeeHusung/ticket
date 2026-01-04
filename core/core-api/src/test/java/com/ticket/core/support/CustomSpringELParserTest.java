@@ -33,6 +33,20 @@ class CustomSpringELParserTest {
         final List<String> keys = CustomSpringELParser.getDynamicValue(prefix, parameterNames, args, dynamicKey);
         //then
         assertThat(keys).containsExactly("LOCK:100", "LOCK:1");
-
     }
+
+    @Test
+    void SPEL_결과가_Collection이면_Flatten되어_리스트로_반환된다() {
+        //given
+        String prefix = "LOCK:";
+        String[] parameterNames = {"seatIds"};
+        Object[] args = {List.of(1L, 2L, 3L)};
+        String[] dynamicKey = {"#seatIds"};
+        //when
+        final List<String> keys = CustomSpringELParser.getDynamicValue(prefix, parameterNames, args, dynamicKey);
+        //then
+        assertThat(keys).containsExactly("LOCK:1", "LOCK:2", "LOCK:3");
+    }
+
+
 }
