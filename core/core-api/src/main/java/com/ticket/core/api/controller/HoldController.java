@@ -1,10 +1,8 @@
 package com.ticket.core.api.controller;
 
 import com.ticket.core.api.controller.request.AddSeatHoldRequest;
-import com.ticket.core.domain.member.MemberDetails;
-import com.ticket.core.domain.hold.HoldToken;
-import com.ticket.core.domain.hold.HoldInfoResponse;
 import com.ticket.core.domain.hold.HoldService;
+import com.ticket.core.domain.member.MemberDetails;
 import com.ticket.core.support.response.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,18 +25,18 @@ public class HoldController {
      * v0 - DB 로만 + scheduler
      */
     @PostMapping("/v0")
-    public ApiResponse<HoldInfoResponse> holdV0(MemberDetails memberDetails, @RequestBody @Valid AddSeatHoldRequest request) {
-        final HoldToken holdToken = holdService.hold(request.toNewSeatHold(memberDetails.getMemberId()));
-        return ApiResponse.success(HoldInfoResponse.from(holdToken));
+    public ApiResponse<Void> holdV0(MemberDetails memberDetails, @RequestBody @Valid AddSeatHoldRequest request) {
+        holdService.hold(request.toNewSeatHold(memberDetails.getMemberId()));
+        return ApiResponse.success();
     }
 
     /**
      * v1 - Redisson DistributedLock
      */
     @PostMapping("/v1")
-    public ApiResponse<HoldInfoResponse> holdV1(MemberDetails memberDetails, @RequestBody @Valid AddSeatHoldRequest request) {
-        final HoldToken holdToken = holdService.hold(request.toNewSeatHold(memberDetails.getMemberId()));
-        return ApiResponse.success(HoldInfoResponse.from(holdToken));
+    public ApiResponse<Void> holdV1(MemberDetails memberDetails, @RequestBody @Valid AddSeatHoldRequest request) {
+        holdService.hold(request.toNewSeatHold(memberDetails.getMemberId()));
+        return ApiResponse.success();
     }
 
 }

@@ -35,7 +35,7 @@ public class HoldServiceV0 implements HoldService {
 
     @Override
     @Transactional
-    public HoldToken hold(final NewSeatHold newSeatHold) {
+    public void hold(final NewSeatHold newSeatHold) {
         final Member foundMember = memberFinder.find(newSeatHold.getMemberId());
         final Performance foundPerformance = performanceFinder.findOpenPerformance(newSeatHold.getPerformanceId());
         final List<PerformanceSeat> availablePerformanceSeats = performanceSeatFinder.findAvailablePerformanceSeats(newSeatHold.getSeatIds(), foundPerformance.getId());
@@ -45,10 +45,8 @@ public class HoldServiceV0 implements HoldService {
         if (availablePerformanceSeats.size() != newSeatHold.getSeatIds().size()) {
             throw new CoreException(ErrorType.SEAT_COUNT_MISMATCH);
         }
-        final HoldToken holdToken = HoldToken.issue(foundMember.getId());
         final LocalDateTime holdExpireAt = LocalDateTime.now().plusSeconds(foundPerformance.getHoldTime());
-        availablePerformanceSeats.forEach(performanceSeat -> performanceSeat.hold(foundMember.getId(), holdExpireAt, holdToken.getToken()));
-        return holdToken;
+        availablePerformanceSeats.forEach(performanceSeat -> performanceSeat.hold(foundMember.getId(), holdExpireAt));
     }
 
 }
