@@ -1,8 +1,8 @@
 package com.ticket.core.domain.reservation;
 
 import com.ticket.core.domain.performanceseat.PerformanceSeat;
-import com.ticket.core.support.ConcurrencyTestBase;
 import com.ticket.core.support.ConcurrentTestUtil;
+import com.ticket.core.support.IntegrationBase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("NonAsciiCharacters")
-class ReservationServiceV0ConcurrencyTest extends ConcurrencyTestBase {
+class ReservationServiceV0ConcurrencyTest extends IntegrationBase {
 
     @Autowired
     @Qualifier("reservationServiceV0")

@@ -1,8 +1,8 @@
 package com.ticket.core.domain.hold;
 
 import com.ticket.core.domain.performanceseat.PerformanceSeat;
-import com.ticket.core.support.ConcurrencyTestBase;
 import com.ticket.core.support.ConcurrentTestUtil;
+import com.ticket.core.support.IntegrationBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import java.util.List;
 
 @SuppressWarnings("NonAsciiCharacters")
-class HoldServiceV0ConcurrencyTest extends ConcurrencyTestBase {
+class HoldServiceV0ConcurrencyTest extends IntegrationBase {
 
     @Autowired
     @Qualifier("holdServiceV0")

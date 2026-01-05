@@ -28,7 +28,7 @@ public class TestDataFactory {
             .plugin(new JakartaValidationPlugin())
             .build();
 
-    public static final LocalDateTime BASE_TIME = LocalDateTime.of(2026, 1, 1, 0, 0);
+    public static final LocalDateTime BASE_TIME = LocalDateTime.of(2026, 10, 10, 0, 0);
 
     // ===== Member =====
     /**
@@ -84,16 +84,15 @@ public class TestDataFactory {
      * 특정 상태의 Performance 생성
      */
     public static Performance createPerformance(PerformanceState state) {
-        LocalDateTime baseTime = LocalDateTime.now();
         return FIXTURE.giveMeBuilder(Performance.class)
                 .setNull("id")
                 .set("status", EntityStatus.ACTIVE)
                 .set(javaGetter(Performance::getShowId), 1L)
                 .set(javaGetter(Performance::getRoundNo), 1L)
-                .set(javaGetter(Performance::getStartTime), baseTime.plusDays(7))
-                .set(javaGetter(Performance::getEndTime), baseTime.plusDays(7).plusHours(2))
-                .set(javaGetter(Performance::getReserveOpenTime), baseTime.minusDays(1))
-                .set(javaGetter(Performance::getReserveCloseTime), baseTime.plusDays(6))
+                .set(javaGetter(Performance::getStartTime), BASE_TIME.plusDays(7))
+                .set(javaGetter(Performance::getEndTime), BASE_TIME.plusDays(7).plusHours(2))
+                .set(javaGetter(Performance::getReserveOpenTime), BASE_TIME.minusDays(1))
+                .set(javaGetter(Performance::getReserveCloseTime), BASE_TIME.plusDays(6))
                 .set(javaGetter(Performance::getMaxCanReserveCount), 4)
                 .set(javaGetter(Performance::getHoldTime), 300)
                 .set(javaGetter(Performance::getState), state)
