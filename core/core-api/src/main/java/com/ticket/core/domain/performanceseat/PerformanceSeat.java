@@ -23,17 +23,14 @@ public class PerformanceSeat {
 
     private Long holdByMemberId;
 
-    private String holdToken;
-
     protected PerformanceSeat() {}
 
-    public PerformanceSeat(final Long performanceId, final Long seatId, final PerformanceSeatState state, final LocalDateTime holdExpireAt, final Long holdByMemberId, final String holdToken) {
+    public PerformanceSeat(final Long performanceId, final Long seatId, final PerformanceSeatState state, final LocalDateTime holdExpireAt, final Long holdByMemberId) {
         this.performanceId = performanceId;
         this.seatId = seatId;
         this.state = state;
         this.holdExpireAt = holdExpireAt;
         this.holdByMemberId = holdByMemberId;
-        this.holdToken = holdToken;
     }
 
     public Long getId() {
@@ -60,19 +57,14 @@ public class PerformanceSeat {
         return holdByMemberId;
     }
 
-    public String getHoldToken() {
-        return holdToken;
-    }
-
     public void reserve() {
         this.state = PerformanceSeatState.RESERVED;
     }
 
-    public void hold(final Long memberId, final LocalDateTime holdExpireAt, final String holdToken) {
+    public void hold(final Long memberId, final LocalDateTime holdExpireAt) {
         this.state = PerformanceSeatState.HELD;
         this.holdExpireAt = holdExpireAt;
         this.holdByMemberId = memberId;
-        this.holdToken = holdToken;
     }
 
     public void release() {
